@@ -11,6 +11,7 @@
 	"scripts": {
 		"start": "node dist/index.mjs",
 		"build": "tsc",
+		"dev": "tsx watch src/index.mts",
 		"test": "vitest run --config test/vitest.config.ts"
 	},
 	"keywords": [
@@ -32,5 +33,12 @@
 	"homepage": "https://github.com/dgg/supercharged-integration-tests/tree/nodejs",
 	"bugs": {
 		"url": "https://github.com/dgg/supercharged-integration-tests/issues"
+	},
+	"devDependencies": {
+		"@tsconfig/esm": "1.0.3",
+		"@tsconfig/node18": "2.0.1",
+		"@tsconfig/strictest": "2.0.1",
+		"tsx": "3.12.7",
+		"typescript": "5.0.4"
 	}
 }
