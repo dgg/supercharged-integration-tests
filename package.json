@@ -12,7 +12,8 @@
 		"start": "node dist/index.mjs",
 		"build": "tsc",
 		"dev": "tsx watch src/index.mts",
-		"test": "vitest run --config test/vitest.config.ts"
+		"test": "vitest run --config test/vitest.config.ts",
+		"test:watch": "vitest watch --config test/vitest.config.ts"
 	},
 	"keywords": [
 		"Danfoss",
@@ -39,6 +40,7 @@
 		"@tsconfig/node18": "2.0.1",
 		"@tsconfig/strictest": "2.0.1",
 		"tsx": "3.12.7",
-		"typescript": "5.0.4"
+		"typescript": "5.0.4",
+		"vitest": "0.31.1"
 	}
 }
