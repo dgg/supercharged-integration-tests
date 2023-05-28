@@ -1,0 +1,36 @@
+{
+	"name": "supercharged-integration-tests",
+	"version": "1.0.0",
+	"description": "Supporting code for Danfoss Digital Nation 2023 talk on Integration Tests using Docker.",
+	"main": "dist/index.mjs",
+	"type": "module",
+	"engines": {
+		"node": "18.16.0",
+		"npm": "9.5.1"
+	},
+	"scripts": {
+		"start": "node dist/index.mjs",
+		"build": "tsc",
+		"test": "vitest run --config test/vitest.config.ts"
+	},
+	"keywords": [
+		"Danfoss",
+		"digital",
+		"nation",
+		"testing",
+		"integration",
+		"docker",
+		"nodejs",
+		"typescript"
+	],
+	"author": "Daniel González García <danielgonnet@gmail.com> (https://github.com/dgg/)",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/dgg/supercharged-integration-tests/"
+	},
+	"homepage": "https://github.com/dgg/supercharged-integration-tests/tree/nodejs",
+	"bugs": {
+		"url": "https://github.com/dgg/supercharged-integration-tests/issues"
+	}
+}
