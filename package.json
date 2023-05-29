@@ -11,6 +11,7 @@
 	"scripts": {
 		"start": "node dist/index.mjs",
 		"build": "tsc",
+		"run": "tsx src/index.mts",
 		"dev": "tsx watch src/index.mts",
 		"test": "vitest run --config test/vitest.config.ts",
 		"test:watch": "vitest watch --config test/vitest.config.ts"
@@ -42,5 +43,8 @@
 		"tsx": "3.12.7",
 		"typescript": "5.0.4",
 		"vitest": "0.31.1"
+	},
+	"dependencies": {
+		"mqtt": "4.3.7"
 	}
 }
