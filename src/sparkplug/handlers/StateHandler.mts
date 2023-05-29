@@ -17,6 +17,7 @@ export class StateHandler {
 	}
 
 	private doHandle(_topic: string, payload: Buffer, _packet: IPublishPacket): void {
+		console.log("DO_HANDLE", _topic)
 		const parsed = State.parsePayload(payload)
 		if (!parsed.online) {
 			this._mqtt.publish(this._birth.topic, this._birth.payload(true), this._birth.options)
