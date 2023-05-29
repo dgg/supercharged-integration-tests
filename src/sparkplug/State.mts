@@ -11,7 +11,7 @@ export interface Payload {
 
 export class State {
 	public readonly topic: string
-	constructor(app: string, private _timestamp = new Date()) {
+	constructor(public readonly app: string, private _timestamp = new Date()) {
 		this.topic = `${NS}/${MessageTypes.State}/${app}`
 	}
 
