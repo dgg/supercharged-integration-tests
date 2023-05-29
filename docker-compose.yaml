@@ -1,0 +1,13 @@
+services:
+  mqtt:
+    image: emqx/nanomq:0.18.2
+    ports:
+      - 1883:1883
+      - 8081:8081
+    environment:
+      - NANOMQ_BROKER_URL=nmq-tcp://0.0.0.0:1883
+      - NANOMQ_TLS_ENABLE=false
+      - NANOMQ_WEBSOCKET_ENABLE=false
+      - NANOMQ_HTTP_SERVER_ENABLE=true
+      - NANOMQ_HTTP_SERVER_USERNAME=usr
+      - NANOMQ_HTTP_SERVER_PASSWORD=pwd
