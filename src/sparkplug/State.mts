@@ -45,7 +45,6 @@ export class State {
 	}
 
 	public static parsePayload(payload: Buffer): Payload {
-		console.log("PARSE", payload.toString())
 		return JSON.parse(payload.toString()) as Payload
 	}
 }

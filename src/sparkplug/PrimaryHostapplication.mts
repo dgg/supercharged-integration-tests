@@ -12,11 +12,11 @@ export class PrimaryHostApplication {
 	private readonly _mqtt: MqttClient
 	private readonly _state: State
 
-	constructor(public readonly name: string, cfg: MqttConfig) {
+	constructor(public readonly name: string, private readonly _cfg: MqttConfig) {
 		this._state = new State(name)
 
 		const phaOptions: IClientOptions = {
-			...cfg.clientOptions,
+			..._cfg.clientOptions,
 
 			clientId: ClientId.build(`[PHA]${name}`),
 			clean: true, // as per spec
@@ -33,10 +33,8 @@ export class PrimaryHostApplication {
 		}
 
 		this._mqtt = connect(phaOptions)
-			.on("close", () => console.log("close"))
-			.on("end", () => console.log("end"))
 			.on("connect", () => {
-				this._mqtt.subscribe(MqttTopic.forSubscription(this._state.topic, cfg.sharedGroup))
+				this._mqtt.subscribe(MqttTopic.forSubscription(this._state.topic, _cfg.sharedGroup), { qos: 1 })
 				this._mqtt.publish(this._state.topic, this._state.payload(true), this._state.options)
 				// ... rest of sparkplug implementation
 			})
@@ -46,15 +44,18 @@ export class PrimaryHostApplication {
 	}
 
 	public stop(force = false): Promise<void> {
-		this._mqtt.unsubscribe(this._state.topic)
+
 		const death = new State(this._state.app)
 
 		return new Promise((resolve, reject) => {
-			this._mqtt.publish(death.topic, death.payload(false), death.options, () => {
-				this._mqtt.end(force, {}, (e) => {
-					e ? reject(e) : resolve()
+			this._mqtt.unsubscribe(MqttTopic.forSubscription(this._state.topic, this._cfg.sharedGroup), {}, () => {
+				this._mqtt.publish(death.topic, death.payload(false), death.options, () => {
+					this._mqtt.end(force, {}, (e) => {
+						e ? reject(e) : resolve()
+					})
 				})
 			})
+
 		})
 	}
 }

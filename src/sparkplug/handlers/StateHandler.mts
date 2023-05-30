@@ -11,13 +11,12 @@ export class StateHandler {
 
 		if (topic.startsWith(NS) && topic.includes(MessageTypes.State)) {
 			handled = true
-			this.doHandle(topic, payload, packet)
+			this.doHandle(payload, packet)
 		}
 		return handled
 	}
 
-	private doHandle(_topic: string, payload: Buffer, _packet: IPublishPacket): void {
-		console.log("DO_HANDLE", _topic)
+	private doHandle(payload: Buffer, _packet: IPublishPacket): void {
 		const parsed = State.parsePayload(payload)
 		if (!parsed.online) {
 			this._mqtt.publish(this._birth.topic, this._birth.payload(true), this._birth.options)

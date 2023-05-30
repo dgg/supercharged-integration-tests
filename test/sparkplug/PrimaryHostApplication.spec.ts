@@ -40,10 +40,7 @@ describe(Subject.name, () => {
 						port: _container.getMappedPort(1883),
 						protocol: "mqtt"
 					}).once("connect", () => {
-						// reset retained STATE
-						//_testClient.publish("spBv1.0/STATE/" + NAME, "", { retain: true }, () => {
 						resolve()
-						//})
 					})
 				})
 		})))
@@ -56,7 +53,6 @@ describe(Subject.name, () => {
 
 		describe("ctor", () => {
 			it("published_birth", (ctx) => (new Promise((resolve, reject) => {
-				console.log(ctx.meta)
 				_testClient.on("message", (_, payload, packet) => {
 					asserting(resolve, reject, () => {
 						const birth = jsonPayload<Payload>(payload)
@@ -131,8 +127,37 @@ describe(Subject.name, () => {
 			})))
 		})
 		describe("one stops", () => {
-			it.todo("the other republishes birth", () => (new Promise(() => {
+			it("republish_birth", (ctx) => (new Promise((resolve) => {
+				let birthCounter = 0
+				let deathCounter = 0
+				_testClient.on("message", async (_, payload) => {
+					const state = jsonPayload<Payload>(payload)
+					// console.log("TEST handling", _, state)
+					if (state.online) {
+						birthCounter++
+						// console.log("birth", birthCounter)
+					} else {
+						deathCounter++
+						// console.log("death", deathCounter)
+					}
+					if (birthCounter === 2 && state.online) {
+						//console.log("asking to stop", state)
+						await stoppable.stop()
+					} else if (birthCounter === 3 && deathCounter === 1) {
+						resolve(null)
+					}
+				}).subscribe("spBv1.0/STATE/" + ctx.meta.name, { qos: 1 })
 
+				const cfg: MqttConfig = {
+					sharedGroup: "grp",
+					clientOptions: {
+						host: _testClient.options.host!,
+						port: _testClient.options.port!,
+						protocol: "mqtt"
+					}
+				}
+				const stoppable = new Subject(ctx.meta.name, cfg)
+				new Subject(ctx.meta.name, cfg)
 			})))
 		})
 	})
