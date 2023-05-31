@@ -4,12 +4,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello World</title>
+    <title>Supercharging Integration Tests</title>
+    <link rel="stylesheet" href="dist/reset.css">
+    <link rel="stylesheet" href="dist/reveal.css">
+    <link rel="stylesheet" href="dist/theme/dracula.css">
 </head>
 
 <body>
-    <h1>Hello</h1>
-    World
+    <div class="reveal">
+        <div class="slides">
+            <section>
+                <h1 class="r-fit-text">Supercharge...</h1>
+                <h1 class="r-fit-text">...Integration Tests</h1>
+            </section>
+            <section>
+                <h2>Agenda</h2>
+
+                <h3>The Context</h3>
+                <ul>
+                    <li>Danfoss ECL120</li>
+                    <li>Sparkplug</li>
+                </ul>
+                <hr />
+                <h3>Testing</h3>
+                <ul>
+                    <li>Kinds</li>
+                    <li>Motivation</li>
+                    <li>One Step Further</li>
+                </ul>
+                <hr />
+                <h3>Live Demo</h3>
+                <aside class="notes">This are notes</aside>
+            </section>
+            <section class="r-fit-text">
+                <h2>The Context: ECL120 and LHM</h2>
+                <h3>ECL120</h3>
+                <p>
+                    Universal one-circuit controller for use in<br />
+                    district heating substations, district heating-based<br />
+                    installations and boiler installations.
+                </p>
+                <h3>Leanheat® Monitor (LHM)</h3>
+                <p>
+                    Reliable connected solution for efficient and<br />
+                    cost-effective management of your district energy<br />
+                    system.
+                </p>
+                <h4><em>Integration</em> of ECL120 into LHM</h4>
+            </section>
+            <section class="r-fit-text">
+                <h2>The Context: MQTT and Sparkplug</h2>
+                <p>ECL 120 external communication protocol is MQTT</p>
+                <ul>
+                    <li>Following Sparkplug Open-source specification
+                    </li>
+                </ul>
+                <div class="r-stack">
+                    <img class="fragment fade-out" src="assets/mqtt-logo.png" alt="MQTT logo">
+                    <img class="fragment current-visible" src="assets/sparkplug-logo.svg" alt="Sparkplug logo">
+                    <img class="fragment" src="assets/sparkplug-architecture.svg" alt="Sparkplug Architecture">
+                </div>
+            </section>
+            <section>
+                <h2>The Context: Our subject</h2>
+                <img src="assets/host-session-establishment.png" alt="Primary Host Session Establishment">
+            </section>
+            <section>
+                <h2>Testing: Kinds</h2>
+                <img src="assets/test-pyramid.png" alt="Testing Pyramid">
+            </section>
+            <section>
+                <h2>Testing: Unit Tests</h2>
+                <p>Involve <em>one</em> unit</p>
+                <p>Most times unit ≡ smallest logical unit</p>
+                <ul>
+                    <li>method, function, … </li>
+                </ul>
+                <p>Sometimes unit ≆ smallest logical unit</p>
+                <ul>
+                    <li>Real collaborator (heuristics for coupling)</li>
+                    <li>Test doubles (heuristics for complexity)</li>
+                </ul>
+            </section>
+            <section class="r-fit-text">
+                <h2>Testing: Integration Tests</h2>
+                <p>Involve more than one <em>unit</em> </p>
+                <p>Usually include some sort of infrastructure (preferably test-hosted)</p>
+                <ul>
+                    <li>HTTP</li>
+                    <li>Messaging</li>
+                    <li>Storage</li>
+                </ul>
+                <p>Actual dependency</p>
+                <ul>
+                    <li>In-Memory </li>
+                    <li>"<em>Supercharged</em>"</li>
+                </ul>
+                <p>Not so-actual dependency</p>
+            </section>
+            <section>
+                <h2>Testing: Supercharging with Docker</h2>
+                <p>Containerization revolutionized software deployment</p>
+                <ul>
+                    <li>Ubiquotous: “safe” dependency to take</li>
+                </ul>
+                <p><b>Testcontainers</b> make actually useful driving containerized applications from tests</p>
+                <p>Unleash automation toolset
+                </p>
+                <ul>
+                    <li>Production dependecies</li>
+                    <li>Documented better practices</li>
+                </ul>
+                <p> Container-friendliness is a feature </p>
+            </section>
+            <section>
+                <h1>Demo Time!</h1>
+            </section>
+            <section>
+                <h1>Q/A?</h1>
+            </section>
+            <section>
+                <h1>Thank you</h1>
+            </section>
+        </div>
+
+        <script src="dist/reveal.js"></script>
+        <script src="plugin/notes/notes.js"></script>
+        <script src="plugin/zoom/zoom.js"></script>
+
+        <script>
+            Reveal.initialize({
+                hash: true,
+
+                plugins: [RevealNotes, RevealZoom]
+            });
+        </script>
+    </div>
 </body>
 
 </html>
