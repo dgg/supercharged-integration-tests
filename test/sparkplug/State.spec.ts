@@ -1,9 +1,9 @@
 import { describe, it } from "vitest"
 import { expect } from "vitest"
 
-import { State as Subject, type Payload } from "../../src/sparkplug/State.mjs"
 import { jsonPayload } from "./support/jsonPayload.js"
 
+import { State as Subject, type Payload } from "../../src/sparkplug/State.mjs"
 
 describe(Subject.name, () => {
 	describe("#unit", () => {

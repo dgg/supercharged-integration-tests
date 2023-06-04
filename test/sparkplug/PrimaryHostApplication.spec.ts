@@ -132,16 +132,12 @@ describe(Subject.name, () => {
 				let deathCounter = 0
 				_testClient.on("message", async (_, payload) => {
 					const state = jsonPayload<Payload>(payload)
-					// console.log("TEST handling", _, state)
 					if (state.online) {
 						birthCounter++
-						// console.log("birth", birthCounter)
 					} else {
 						deathCounter++
-						// console.log("death", deathCounter)
 					}
 					if (birthCounter === 2 && state.online) {
-						//console.log("asking to stop", state)
 						await stoppable.stop()
 					} else if (birthCounter === 3 && deathCounter === 1) {
 						resolve(null)
