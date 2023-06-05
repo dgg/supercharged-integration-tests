@@ -6,5 +6,5 @@ Supporting code for [Danfoss Digital Nation 2023](https://danfossdigitalnation.c
 
 There are multiple "main" branches for the supporting code, one per platform:
 
- * [Node.js](https://nodejs.org/en/about)
- * [.NET](https://dotnet.microsoft.com/en-us/)
+ * [Node.js](https://github.com/dgg/supercharged-integration-tests/tree/nodejs)
+ * [.NET](https://github.com/dgg/supercharged-integration-tests/tree/dotnet)
