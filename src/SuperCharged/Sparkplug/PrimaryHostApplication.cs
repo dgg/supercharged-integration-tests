@@ -1,25 +1,23 @@
 using MQTTnet;
 using MQTTnet.Client;
-using MQTTnet.Protocol;
 
-using System.Net.Mime;
-
-using System.Text;
-using System.Text.Json;
+namespace Sparkplug;
 
 public class PrimaryHostApplication : IDisposable
 {
 	private bool _disposedValue;
 	private IMqttClient _client;
 	private readonly string _name;
+	private readonly State _state;
 
 	public PrimaryHostApplication(string name)
 	{
 		_name = name;
 		_client = new MqttFactory().CreateMqttClient();
+		_state = new State(name);
 	}
 
-	public Task<MqttClientConnectResult> ConnectAsync(MqttClientOptionsBuilder partialBuilder, CancellationToken token = default(CancellationToken))
+	public async Task ConnectAsync(MqttClientOptionsBuilder partialBuilder, CancellationToken token = default(CancellationToken))
 	{
 		var willPayload = new
 		{
@@ -27,20 +25,19 @@ public class PrimaryHostApplication : IDisposable
 			online = false
 		};
 
-		// set PHA options on builder
+		// setting PHA options on builder
 		partialBuilder.WithClientId(ClientId.Build(_name))
 			.WithCleanSession()
 			.WithSessionExpiryInterval(0)
 			.WithKeepAlivePeriod(TimeSpan.FromSeconds(5))
-			.WithTimeout(TimeSpan.FromSeconds(5))
-			// TODO: send partial to State to set will-related options
-			.WithWillRetain()
-			.WithWillQualityOfServiceLevel(MqttQualityOfServiceLevel.AtLeastOnce)
-			.WithWillContentType(MediaTypeNames.Application.Json)
-			.WithWillTopic("spBv1.0/STATE/" + _name)
-			.WithWillPayload(JsonSerializer.Serialize(willPayload));
+			.WithTimeout(TimeSpan.FromSeconds(5));
 
-		return _client.ConnectAsync(partialBuilder.Build(), token);
+		_state.Will(ref partialBuilder);
+
+		await _client.ConnectAsync(partialBuilder.Build(), token);
+
+
+		return;
 	}
 
 	protected virtual void Dispose(bool disposing)

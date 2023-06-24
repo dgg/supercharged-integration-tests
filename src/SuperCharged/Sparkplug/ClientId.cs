@@ -1,5 +1,7 @@
 using System.Net;
 
+namespace Sparkplug;
+
 internal class ClientId
 {
 	private static Random _rnd = new Random();
