@@ -7,20 +7,20 @@ public class PrimaryHostApplication : IDisposable
 {
 	private bool _disposedValue;
 	private IMqttClient _client;
-	private readonly string _name;
+	public string Name { get; init; }
 	private readonly State _state;
 	private readonly string? _sharedGroup;
 
 	public PrimaryHostApplication(string name, string? sharedGroup = null)
 	{
-		_name = name;
+		Name = name;
 		_sharedGroup = sharedGroup;
 
 		_client = new MqttFactory().CreateMqttClient();
 		_state = new State(name);
 	}
 
-	public async Task ConnectAsync(MqttClientOptionsBuilder partialBuilder, CancellationToken token = default(CancellationToken))
+	public async Task StartAsync(MqttClientOptionsBuilder partialBuilder, CancellationToken token = default(CancellationToken))
 	{
 		await connectAsPrimaryHostApp(partialBuilder, token);
 
@@ -31,9 +31,20 @@ public class PrimaryHostApplication : IDisposable
 		return;
 	}
 
+	public async Task StopAsync(CancellationToken token = default(CancellationToken))
+	{
+		var death = new State(Name);
+
+		await unsubscribeFromState(death, token);
+
+		await publishDeath(death, token);
+
+		await disconnectAsPrimaryHostApp(token);
+	}
+
 	private Task<MqttClientConnectResult> connectAsPrimaryHostApp(MqttClientOptionsBuilder partialBuilder, CancellationToken token)
 	{
-		partialBuilder.WithClientId(ClientId.Build(_name))
+		partialBuilder.WithClientId(ClientId.Build(Name))
 			.WithCleanSession()
 			.WithSessionExpiryInterval(0)
 			.WithKeepAlivePeriod(TimeSpan.FromSeconds(5))
@@ -58,6 +69,27 @@ public class PrimaryHostApplication : IDisposable
 	private Task<MqttClientPublishResult> publishBirth(CancellationToken token)
 	{
 		return _client.PublishAsync(_state.ForPublication(true).Build(), token);
+	}
+
+
+	private Task<MqttClientUnsubscribeResult> unsubscribeFromState(State death, CancellationToken token)
+	{
+		string theTopic = _sharedGroup != null ? $"$share/{death.Topic}" : death.Topic;
+
+		return _client.UnsubscribeAsync(theTopic, token);
+	}
+
+	private Task<MqttClientPublishResult> publishDeath(State death, CancellationToken token)
+	{
+		return _client.PublishAsync(death.ForPublication(false).Build(), token);
+	}
+
+	private Task disconnectAsPrimaryHostApp(CancellationToken token)
+	{
+		var disconnect = new MqttClientDisconnectOptionsBuilder()
+			.WithReason(MqttClientDisconnectOptionsReason.NormalDisconnection);
+
+		return _client.DisconnectAsync(disconnect.Build(), token);
 	}
 
 	protected virtual void Dispose(bool disposing)

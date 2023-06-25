@@ -10,9 +10,11 @@ using (var pha = new PrimaryHostApplication("LHM", "pha"))
 		.WithProtocolVersion(MQTTnet.Formatter.MqttProtocolVersion.V500);
 
 	Console.WriteLine("Connecting...");
-	await pha.ConnectAsync(builder);
+	await pha.StartAsync(builder);
 
-	await Task.Delay(TimeSpan.FromSeconds(10));
+	await Task.Delay(TimeSpan.FromSeconds(5));
+
+	await pha.StopAsync();
 
 	Console.WriteLine("...Disconnected");
 }
