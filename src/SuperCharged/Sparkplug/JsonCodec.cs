@@ -1,5 +1,7 @@
 using System.Text.Json;
 
+namespace SuperCharged.Sparkplug;
+
 public static class JsonCodec
 {
 	private static readonly JsonSerializerOptions _defaultOpts = new JsonSerializerOptions

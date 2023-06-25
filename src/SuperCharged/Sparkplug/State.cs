@@ -1,10 +1,10 @@
-using System.Net.Mime;
-using System.Text.Json;
+using MQTTnet;
 using MQTTnet.Client;
 using MQTTnet.Protocol;
 
-namespace Sparkplug;
+using System.Net.Mime;
 
+namespace SuperCharged.Sparkplug;
 
 record struct Payload(bool online)
 {
@@ -30,5 +30,28 @@ internal class State
 			.WithWillContentType(MediaTypeNames.Application.Json)
 			.WithWillTopic(Topic)
 			.WithWillPayload(Payload.ToJson());
+	}
+
+	public MqttTopicFilterBuilder ForSubscription()
+	{
+		var builder = new MqttTopicFilterBuilder()
+			.WithTopic(Topic)
+			.WithQualityOfServiceLevel(MqttQualityOfServiceLevel.AtLeastOnce);
+
+		return builder;
+	}
+
+	public MqttApplicationMessageBuilder ForPublication(bool online)
+	{
+		Payload thePayload = online == Payload.online ? Payload : Payload with { online = online };
+
+		var builder = new MqttApplicationMessageBuilder()
+			.WithRetainFlag()
+			.WithQualityOfServiceLevel(MqttQualityOfServiceLevel.AtLeastOnce)
+			.WithContentType(MediaTypeNames.Application.Json)
+			.WithTopic(Topic)
+			.WithPayload(thePayload.ToJson());
+
+		return builder;
 	}
 }

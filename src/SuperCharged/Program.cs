@@ -1,10 +1,8 @@
-﻿using System.Text.Json;
+﻿using MQTTnet.Client;
 
-using MQTTnet.Client;
+using SuperCharged.Sparkplug;
 
-using Sparkplug;
-
-using (var pha = new PrimaryHostApplication("LHM"))
+using (var pha = new PrimaryHostApplication("LHM", "pha"))
 {
 	var builder = new MqttClientOptionsBuilder()
 		.WithTcpServer("localhost", 1884)

@@ -1,4 +1,4 @@
-namespace Sparkplug;
+namespace SuperCharged.Sparkplug;
 
 internal class Protocol
 {
@@ -7,5 +7,5 @@ internal class Protocol
 
 internal static class MessageTypes
 {
-	public static readonly string State = "State";
+	public static readonly string State = "STATE";
 }

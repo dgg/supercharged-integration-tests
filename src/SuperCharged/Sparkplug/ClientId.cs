@@ -1,6 +1,6 @@
 using System.Net;
 
-namespace Sparkplug;
+namespace SuperCharged.Sparkplug;
 
 internal class ClientId
 {
