@@ -6,9 +6,9 @@ using System.Net.Mime;
 
 namespace SuperCharged.Sparkplug;
 
-record struct Payload(bool online)
+public record struct Payload(bool Online)
 {
-	public long timestamp { get; init; } = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+	public long Timestamp { get; init; } = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
 }
 
 internal class State
@@ -43,7 +43,7 @@ internal class State
 
 	public MqttApplicationMessageBuilder ForPublication(bool online)
 	{
-		Payload thePayload = online == Payload.online ? Payload : Payload with { online = online };
+		Payload thePayload = online == Payload.Online ? Payload : Payload with { Online = online };
 
 		var builder = new MqttApplicationMessageBuilder()
 			.WithRetainFlag()
@@ -53,5 +53,10 @@ internal class State
 			.WithPayload(thePayload.ToJson());
 
 		return builder;
+	}
+
+	public static Payload Parse(string payload)
+	{
+		return JsonCodec.FromJson<Payload>(payload);
 	}
 }

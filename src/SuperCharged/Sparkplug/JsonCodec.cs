@@ -13,4 +13,9 @@ public static class JsonCodec
 	{
 		return JsonSerializer.Serialize(toSerialize, _defaultOpts);
 	}
+
+	public static T? FromJson<T>(string json)
+	{
+		return JsonSerializer.Deserialize<T>(json, _defaultOpts);
+	}
 }

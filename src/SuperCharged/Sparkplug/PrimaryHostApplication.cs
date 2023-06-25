@@ -9,6 +9,7 @@ public class PrimaryHostApplication : IDisposable
 	private IMqttClient _client;
 	public string Name { get; init; }
 	private readonly State _state;
+	private readonly StateHandler _handler;
 	private readonly string? _sharedGroup;
 
 	public PrimaryHostApplication(string name, string? sharedGroup = null)
@@ -18,10 +19,13 @@ public class PrimaryHostApplication : IDisposable
 
 		_client = new MqttFactory().CreateMqttClient();
 		_state = new State(name);
+		_handler = new StateHandler(_state, _client);
 	}
 
 	public async Task StartAsync(MqttClientOptionsBuilder partialBuilder, CancellationToken token = default(CancellationToken))
 	{
+		_client.ApplicationMessageReceivedAsync += _handler.TryHandle;
+
 		await connectAsPrimaryHostApp(partialBuilder, token);
 
 		await subscribeToState(token);
@@ -60,7 +64,7 @@ public class PrimaryHostApplication : IDisposable
 		MqttTopicFilterBuilder subToState = _state.ForSubscription();
 		if (_sharedGroup != null)
 		{
-			string sharedTopic = $"$share/{subToState.Build().Topic}";
+			string sharedTopic = $"$share/{_sharedGroup}/{subToState.Build().Topic}";
 			subToState.WithTopic(sharedTopic);
 		}
 		return _client.SubscribeAsync(subToState.Build(), token);
@@ -71,10 +75,9 @@ public class PrimaryHostApplication : IDisposable
 		return _client.PublishAsync(_state.ForPublication(true).Build(), token);
 	}
 
-
 	private Task<MqttClientUnsubscribeResult> unsubscribeFromState(State death, CancellationToken token)
 	{
-		string theTopic = _sharedGroup != null ? $"$share/{death.Topic}" : death.Topic;
+		string theTopic = _sharedGroup != null ? $"$share/{_sharedGroup}/{death.Topic}" : death.Topic;
 
 		return _client.UnsubscribeAsync(theTopic, token);
 	}
@@ -91,6 +94,13 @@ public class PrimaryHostApplication : IDisposable
 
 		return _client.DisconnectAsync(disconnect.Build(), token);
 	}
+
+	private Task onStateMessage(MqttApplicationMessageReceivedEventArgs args)
+	{
+		Console.WriteLine(args.ToJson());
+		return Task.CompletedTask;
+	}
+
 
 	protected virtual void Dispose(bool disposing)
 	{
