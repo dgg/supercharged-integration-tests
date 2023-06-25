@@ -13,15 +13,16 @@ internal class StateHandler
 		_client = client;
 	}
 
-	public async Task TryHandle(MqttApplicationMessageReceivedEventArgs args)
+	public async Task<bool> TryHandle(MqttApplicationMessageReceivedEventArgs args)
 	{
 		string topic = args.ApplicationMessage.Topic;
 		if (topic.StartsWith(Protocol.NS) && topic.Contains(MessageTypes.State))
 		{
 			await doHandle(args.ApplicationMessage);
+			return true;
 		}
 
-		return;
+		return false;
 	}
 
 	private async Task doHandle(MqttApplicationMessage message)

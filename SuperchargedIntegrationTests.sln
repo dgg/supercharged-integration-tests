@@ -7,6 +7,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{CE00F7D2-A76
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Supercharged", "src\SuperCharged\Supercharged.csproj", "{F74C1BA9-9378-49CA-BAA8-25F1F37264CF}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{FC82EDAC-2F58-44A5-8C9A-DE125055E861}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Supercharged.Tests", "test\SuperCharged.Tests\Supercharged.Tests.csproj", "{4D60D001-0D5F-4A50-9EB9-06A78F50C835}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,8 +24,13 @@ Global
 		{F74C1BA9-9378-49CA-BAA8-25F1F37264CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F74C1BA9-9378-49CA-BAA8-25F1F37264CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F74C1BA9-9378-49CA-BAA8-25F1F37264CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D60D001-0D5F-4A50-9EB9-06A78F50C835}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D60D001-0D5F-4A50-9EB9-06A78F50C835}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D60D001-0D5F-4A50-9EB9-06A78F50C835}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D60D001-0D5F-4A50-9EB9-06A78F50C835}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F74C1BA9-9378-49CA-BAA8-25F1F37264CF} = {CE00F7D2-A76A-4984-807E-EF8049C5CE82}
+		{4D60D001-0D5F-4A50-9EB9-06A78F50C835} = {FC82EDAC-2F58-44A5-8C9A-DE125055E861}
 	EndGlobalSection
 EndGlobal
