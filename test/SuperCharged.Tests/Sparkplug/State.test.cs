@@ -11,7 +11,7 @@ public class StateTester
 {
 	#region ctor
 	[Test]
-	public void ctor_SetsTopic()
+	public void State_ctor_SetsTopic()
 	{
 		string app = "the_app";
 		var subject = new State(app);
@@ -20,7 +20,7 @@ public class StateTester
 	}
 
 	[Test]
-	public void ctor_SetsOfflinePayload()
+	public void State_ctor_SetsOfflinePayload()
 	{
 		var subject = new State("app");
 
@@ -30,7 +30,7 @@ public class StateTester
 
 	#region Will
 	[Test]
-	public void Will_OfflinePayload()
+	public void State_Will_OfflinePayload()
 	{
 		MqttClientOptionsBuilder builder = OptionsBuilder.Empty();
 
@@ -44,7 +44,7 @@ public class StateTester
 	}
 
 	[Test]
-	public void Will_JsonContent()
+	public void State_Will_JsonContent()
 	{
 		MqttClientOptionsBuilder builder = OptionsBuilder.Empty();
 
@@ -56,7 +56,7 @@ public class StateTester
 	}
 
 	[Test]
-	public void Will_StateTopic()
+	public void State_Will_StateTopic()
 	{
 		MqttClientOptionsBuilder builder = OptionsBuilder.Empty();
 
@@ -68,7 +68,7 @@ public class StateTester
 	}
 
 	[Test]
-	public void Will_RetainedAndQoS1()
+	public void State_Will_RetainedAndQoS1()
 	{
 		MqttClientOptionsBuilder builder = OptionsBuilder.Empty();
 
@@ -84,7 +84,7 @@ public class StateTester
 	#region ForSubscription
 
 	[Test]
-	public void ForSubscription_SubscribeToTopic()
+	public void State_ForSubscription_SubscribeToTopic()
 	{
 		var subject = new State("app");
 		MqttTopicFilterBuilder builder = subject.ForSubscription();
@@ -93,7 +93,7 @@ public class StateTester
 	}
 
 	[Test]
-	public void ForSubscription_QoS1()
+	public void State_ForSubscription_QoS1()
 	{
 		MqttTopicFilterBuilder builder = new State("app").ForSubscription();
 
@@ -104,7 +104,7 @@ public class StateTester
 	#region ForPublication
 
 	[Test]
-	public void ForPublication_RetainedAndQoS1()
+	public void State_ForPublication_RetainedAndQoS1()
 	{
 		MqttApplicationMessageBuilder builder = new State("app").ForPublication(false);
 
@@ -114,7 +114,7 @@ public class StateTester
 	}
 
 	[Test]
-	public void ForPublication_Json()
+	public void State_ForPublication_Json()
 	{
 		MqttApplicationMessageBuilder builder = new State("app").ForPublication(false);
 
@@ -123,7 +123,7 @@ public class StateTester
 	}
 
 	[Test]
-	public void ForPublication_PublishToTopic()
+	public void State_ForPublication_PublishToTopic()
 	{
 		var subject = new State("app");
 		MqttApplicationMessageBuilder builder = subject.ForPublication(false);
@@ -133,7 +133,7 @@ public class StateTester
 	}
 
 	[Test]
-	public void ForPublication_Online_OnlinePayload()
+	public void State_ForPublication_Online_OnlinePayload()
 	{
 		bool online = true;
 		MqttApplicationMessageBuilder builder = new State("app").ForPublication(online);
@@ -143,7 +143,7 @@ public class StateTester
 	}
 
 	[Test]
-	public void ForPublication_Offline_OfflinePayload()
+	public void State_ForPublication_Offline_OfflinePayload()
 	{
 		bool offline = false;
 		MqttApplicationMessageBuilder builder = new State("app").ForPublication(offline);

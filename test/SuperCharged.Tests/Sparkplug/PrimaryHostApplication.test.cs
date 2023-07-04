@@ -58,7 +58,7 @@ public class PrimaryHostApplicationTester
 	}
 
 	[Test]
-	public async Task StartAsync_PublishesBirth()
+	public async Task PrimaryHostApplication_StartAsync_PublishesBirth()
 	{
 		string phaName = "birth";
 		string birthTopic = $"spBv1.0/STATE/{phaName}";
@@ -88,7 +88,7 @@ public class PrimaryHostApplicationTester
 	}
 
 	[Test]
-	public async Task StopAsync_PublishesDeath()
+	public async Task PrimaryHostApplication_StopAsync_PublishesDeath()
 	{
 		string phaName = "death";
 		string deathTopic = $"spBv1.0/STATE/{phaName}";
@@ -120,7 +120,7 @@ public class PrimaryHostApplicationTester
 
 
 	[Test]
-	public async Task MultiplePHAs_MultipleBirths()
+	public async Task PrimaryHostApplication_MultiplePHAs_MultipleBirths()
 	{
 		string phaName = "multi";
 		string stateTopic = $"spBv1.0/STATE/{phaName}";
@@ -150,7 +150,7 @@ public class PrimaryHostApplicationTester
 	}
 
 	[Test]
-	public async Task MultiplePHAs_OneStops_BirthRepublished()
+	public async Task PrimaryHostApplication_OnePHAStops_BirthRepublished()
 	{
 		string phaName = "multi";
 		string stateTopic = $"spBv1.0/STATE/{phaName}";
